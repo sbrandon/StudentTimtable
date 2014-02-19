@@ -6,10 +6,10 @@ public class Offering {
 	private int id;
 	private Course course;
 	private String daysTimes;
-	static String url = "jdbc:odbc:Reggie";
+	static String url = "jdbc:mysql://127.0.0.1:3306/studenttimetable";
 	static { 
 		try { 
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
+			Class.forName("com.mysql.jdbc.Driver"); 
 			}
 		catch (Exception ignored) {} 
 	}
@@ -17,7 +17,7 @@ public class Offering {
 	public static Offering create(Course course, String daysTimesCsv) throws Exception {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url, "", "");
+			conn = DriverManager.getConnection(url, "root", "");
 			Statement statement = conn.createStatement();
 			ResultSet result = statement.executeQuery("SELECT MAX(ID) FROM offering;");
 			result.next();
@@ -36,14 +36,14 @@ public class Offering {
 	public static Offering find(int id) {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url, "", "");
+			conn = DriverManager.getConnection(url, "root", "");
 			Statement statement = conn.createStatement();
 			ResultSet result = statement.executeQuery("SELECT * FROM offering WHERE ID =" + id + ";");
 			if (result.next() == false)
 				return null;
-			String courseName = result.getString("Course");
+			String courseName = result.getString("Name");
 			Course course = Course.find(courseName);
-			String dateTime = result.getString("DateTime");
+			String dateTime = result.getString("DaysTimes");
 			conn.close();
 			return new Offering(id, course, dateTime);
 		} 
@@ -58,7 +58,7 @@ public class Offering {
 	public void update() throws Exception {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url, "", "");
+			conn = DriverManager.getConnection(url, "root", "");
 			Statement statement = conn.createStatement();
 			statement.executeUpdate("DELETE FROM Offering WHERE ID=" + id + ";");
 			statement.executeUpdate("INSERT INTO Offering VALUES('" + id + "','" + course.getName() + "','" + daysTimes + "');");

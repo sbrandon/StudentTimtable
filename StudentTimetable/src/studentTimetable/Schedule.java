@@ -13,10 +13,10 @@ public class Schedule {
 	
 	ArrayList<Offering> schedule = new ArrayList<Offering>();
 	
-	static String url = "jdbc:odbc:Reggie";
+	static String url = "jdbc:mysql://127.0.0.1:3306/studenttimetable";
 	static { 
 		try { 
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
+			Class.forName("com.mysql.jdbc.Driver"); 
 		}
 		catch (Exception ignored) {} 
 	}
@@ -24,9 +24,9 @@ public class Schedule {
 	public static void deleteAll() throws Exception {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url, "", "");
+			conn = DriverManager.getConnection(url, "root", "");
 			Statement statement = conn.createStatement();
-			statement.executeUpdate("DELETE * FROM schedule;");
+			statement.executeUpdate("DELETE FROM schedule;");
 		} 
 		finally {
 			try { 
@@ -39,9 +39,9 @@ public class Schedule {
 	public static Schedule create(String name) throws Exception {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url, "", "");
+			conn = DriverManager.getConnection(url, "root", "");
 			Statement statement = conn.createStatement();
-			statement.executeUpdate("DELETE FROM schedule WHERE name = '" + name + "';");
+			statement.executeUpdate("DELETE FROM schedule WHERE Name = '" + name + "';");
 			return new Schedule(name);
 		} 
 		finally {
@@ -55,7 +55,7 @@ public class Schedule {
 	public static Schedule find(String name) {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url, "", "");
+			conn = DriverManager.getConnection(url, "root", "");
 			Statement statement = conn.createStatement();
 			ResultSet result = statement.executeQuery("SELECT * FROM schedule WHERE Name= '" + name + "';");
 			Schedule schedule = new Schedule(name);
@@ -81,7 +81,7 @@ public class Schedule {
 		ArrayList<Schedule> result = new ArrayList<Schedule>();
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url, "", "");
+			conn = DriverManager.getConnection(url, "root", "");
 			Statement statement = conn.createStatement();
 			ResultSet results = statement.executeQuery("SELECT DISTINCT Name FROM schedule;");
 			while (results.next())
@@ -99,7 +99,7 @@ public class Schedule {
 	public void update() throws Exception {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(url, "", "");
+			conn = DriverManager.getConnection(url, "root", "");
 			Statement statement = conn.createStatement();
 			statement.executeUpdate("DELETE FROM schedule WHERE name = '" + name + "';");
 			for (int i = 0; i < schedule.size(); i++) {
