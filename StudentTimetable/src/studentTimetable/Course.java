@@ -5,36 +5,38 @@ import java.sql.*;
 public class Course {
 	private String name;
 	private int credits;
-	static String url = "jdbc:mysql://127.0.0.1:3306/studenttimetable";
-	static { 
-		try { 
-			Class.forName("com.mysql.jdbc.Driver"); 
-			}
-		catch (Exception ignored) {} 
+	private static DatabaseFacade databaseFacade = new DatabaseFacade();
+	
+	public static Connection getConnection(){
+		Connection conn = databaseFacade.getConnection();
+		return conn;
 	}
-
-	public static Course create(String name, int credits) throws Exception {
-		Connection conn = null;
+	
+	public static void closeConnection(Connection connection){
 		try {
-			conn = DriverManager.getConnection(url, "root", "");
-			Statement statement = conn.createStatement();
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+	}
+	
+	public static Course create(String name, int credits) throws Exception {
+		Connection connection = getConnection();
+		try {
+			Statement statement = connection.createStatement();
 			statement.executeUpdate("DELETE FROM course WHERE name = '" + name + "';");
 			statement.executeUpdate("INSERT INTO course VALUES ('" + name + "', '" + credits + "');");
 			return new Course(name, credits);
 		} 
 		finally {
-			try { 
-				conn.close(); 
-			} 
-			catch (Exception ignored) {}
+			closeConnection(connection);
 		}
 	}
 
 	public static Course find(String name) {
-		Connection conn = null;
+		Connection connection = getConnection();
 		try {
-			conn = DriverManager.getConnection(url, "root", "");
-			Statement statement = conn.createStatement();
+			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery("SELECT * FROM course WHERE Name = '" + name + "';");
 			if (!result.next()) return null;
 			int credits = result.getInt("Credits");
@@ -44,26 +46,19 @@ public class Course {
 			return null;
 		} 
 		finally {
-			try { 
-				conn.close(); 
-			} 
-			catch (Exception ignored) {}
+			closeConnection(connection);
 		}
 	}
 	
 	public void update() throws Exception {
-		Connection conn = null;
+		Connection connection = getConnection();
 		try {
-			conn = DriverManager.getConnection(url, "root", "");
-			Statement statement = conn.createStatement();
+			Statement statement = connection.createStatement();
 			statement.executeUpdate("DELETE FROM COURSE WHERE name = '" + name + "';");
 			statement.executeUpdate("INSERT INTO course VALUES('" + name + "','" + credits + "');");
 		} 
 		finally {
-			try { 
-				conn.close(); 
-			} 
-			catch (Exception ignored) {}
+			closeConnection(connection);
 		}
 	}
 

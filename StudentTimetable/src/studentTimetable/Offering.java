@@ -6,19 +6,25 @@ public class Offering {
 	private int id;
 	private Course course;
 	private String daysTimes;
-	static String url = "jdbc:mysql://127.0.0.1:3306/studenttimetable";
-	static { 
-		try { 
-			Class.forName("com.mysql.jdbc.Driver"); 
-			}
-		catch (Exception ignored) {} 
+	private static DatabaseFacade databaseFacade = new DatabaseFacade();
+	
+	public static Connection getConnection(){
+		Connection conn = databaseFacade.getConnection();
+		return conn;
 	}
-
-	public static Offering create(Course course, String daysTimesCsv) throws Exception {
-		Connection conn = null;
+	
+	public static void closeConnection(Connection connection){
 		try {
-			conn = DriverManager.getConnection(url, "root", "");
-			Statement statement = conn.createStatement();
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+	}
+	
+	public static Offering create(Course course, String daysTimesCsv) throws Exception {
+		Connection connection = getConnection();
+		try {
+			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery("SELECT MAX(ID) FROM offering;");
 			result.next();
 			int newId = 1 + result.getInt(1);
@@ -26,48 +32,38 @@ public class Offering {
 			return new Offering(newId, course, daysTimesCsv);
 		} 
 		finally {
-			try { 
-				conn.close(); 
-				} 
-			catch (Exception ignored) {}
+			closeConnection(connection);
 		}
 	}
 
 	public static Offering find(int id) {
-		Connection conn = null;
+		Connection connection = getConnection();
 		try {
-			conn = DriverManager.getConnection(url, "root", "");
-			Statement statement = conn.createStatement();
+			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery("SELECT * FROM offering WHERE ID =" + id + ";");
 			if (result.next() == false)
 				return null;
 			String courseName = result.getString("Name");
 			Course course = Course.find(courseName);
 			String dateTime = result.getString("DaysTimes");
-			conn.close();
+			connection.close();
 			return new Offering(id, course, dateTime);
 		} 
 		catch (Exception ex) {
-			try { 
-				conn.close(); 
-			} catch (Exception ignored) {}
+			closeConnection(connection);
 			return null;
 		}
 	}
 	
 	public void update() throws Exception {
-		Connection conn = null;
+		Connection connection = getConnection();
 		try {
-			conn = DriverManager.getConnection(url, "root", "");
-			Statement statement = conn.createStatement();
+			Statement statement = connection.createStatement();
 			statement.executeUpdate("DELETE FROM Offering WHERE ID=" + id + ";");
 			statement.executeUpdate("INSERT INTO Offering VALUES('" + id + "','" + course.getName() + "','" + daysTimes + "');");
 		} 
 		finally {
-			try { 
-				conn.close(); 
-			} 
-			catch (Exception ignored) {}
+			closeConnection(connection);
 		}
 	}
 
