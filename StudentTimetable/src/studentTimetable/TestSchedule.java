@@ -1,8 +1,13 @@
 package studentTimetable;
 
 import junit.framework.TestCase;
+
 import java.util.List;
 import java.util.Collection;
+
+import entity.Course;
+import entity.Offering;
+import entity.Schedule;
 
 public class TestSchedule extends TestCase {
 	
@@ -129,8 +134,8 @@ public class TestSchedule extends TestCase {
 		s2.add(off1);
 		s2.update();
 		Schedule s3 = Schedule.find("Bob");
-		assertEquals(2, s3.schedule.size());
+		assertEquals(2, s3.getSchedule().size());
 		Schedule s4 = Schedule.find("Alice");
-		assertEquals(1, s4.schedule.size());
+		assertEquals(1, s4.getSchedule().size());
 	}
 }

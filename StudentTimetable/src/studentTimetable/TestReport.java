@@ -1,8 +1,13 @@
 package studentTimetable;
 
 import junit.framework.TestCase;
+
 import java.util.List;
 import java.util.Collection;
+
+import entity.Course;
+import entity.Offering;
+import entity.Schedule;
 
 public class TestReport extends TestCase {
 

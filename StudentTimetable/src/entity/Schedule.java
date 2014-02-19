@@ -1,16 +1,18 @@
-package studentTimetable;
+package entity;
 
 import java.util.*;
 import java.sql.*;
 
+import studentTimetable.DatabaseFacade;
+
 public class Schedule {
 	
-	String name;
-	int credits = 0;
-	static final int minCredits = 12;
-	static final int maxCredits = 18;
-	boolean permission = false;
-	ArrayList<Offering> schedule = new ArrayList<Offering>();
+	private String name;
+	private int credits = 0;
+	private static final int minCredits = 12;
+	private static final int maxCredits = 18;
+	private boolean permission = false;
+	private ArrayList<Offering> schedule = new ArrayList<Offering>();
 	private static DatabaseFacade databaseFacade = new DatabaseFacade();
 	
 	public static Connection getConnection(){
@@ -151,5 +153,49 @@ public class Schedule {
 
 	public String toString() {
 		return "Schedule " + name + ": " + schedule;
+	}
+	
+	/*
+	 * Getters and Setters
+	 */
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getCredits() {
+		return credits;
+	}
+
+	public void setCredits(int credits) {
+		this.credits = credits;
+	}
+
+	public boolean isPermission() {
+		return permission;
+	}
+
+	public void setPermission(boolean permission) {
+		this.permission = permission;
+	}
+
+	public ArrayList<Offering> getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(ArrayList<Offering> schedule) {
+		this.schedule = schedule;
+	}
+
+	public static int getMincredits() {
+		return minCredits;
+	}
+
+	public static int getMaxcredits() {
+		return maxCredits;
 	}
 }

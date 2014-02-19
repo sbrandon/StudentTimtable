@@ -2,6 +2,9 @@ package studentTimetable;
 
 import java.util.*;
 
+import entity.Offering;
+import entity.Schedule;
+
 public class Report {
 	
 	public Report() {
@@ -13,7 +16,7 @@ public class Report {
 		Collection<Schedule> schedules = Schedule.all();
 		for (Iterator<Schedule> eachSchedule = schedules.iterator(); eachSchedule.hasNext();) {
 			Schedule schedule = (Schedule) eachSchedule.next();
-			for (Iterator<Offering> each = schedule.schedule.iterator(); each.hasNext(); ) {
+			for (Iterator<Offering> each = schedule.getSchedule().iterator(); each.hasNext(); ) {
 				Offering offering = (Offering) each.next();
 				populateMapFor(schedule, offering);
 			}
@@ -26,7 +29,7 @@ public class Report {
 			list = new ArrayList<String>();
 			offeringToName.put(new Integer(offering.getId()), list);
 		}
-		list.add(schedule.name);
+		list.add(schedule.getName());
 	}
 
 	public void writeOffering(StringBuffer buffer, ArrayList<String> list, Offering offering) {
