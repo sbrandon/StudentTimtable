@@ -21,10 +21,11 @@ public class ConnectionFactory {
 		}
 	}
 	
+	//Returns a connection instance
 	public Connection getConnection() throws SQLException{
-		Connection connection = null;
-		connection = (Connection) DriverManager.getConnection(databaseUrl, username, password);
-		return connection;
+		Connection conn = null;
+		conn = (Connection) DriverManager.getConnection(databaseUrl, username, password);
+		return conn;
 	}
 	
 }

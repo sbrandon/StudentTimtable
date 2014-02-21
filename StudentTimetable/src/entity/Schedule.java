@@ -13,11 +13,6 @@ public class Schedule {
 		this.name = name;
 	}
 	
-	//Empty Constructor
-	public Schedule(){
-		
-	}
-	
 	/*
 	 * Getters and Setters
 	 */

@@ -10,11 +10,6 @@ public class Course {
 		this.credits = credits;
 	}
 	
-	//Empty Constructor
-	public Course(){
-
-	}
-	
 	/*
 	 * Getters and Setters
 	 */

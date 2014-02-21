@@ -21,7 +21,6 @@ public class ScheduleImpl{
 		this.schedule = schedule;
 	}
 	
-	//Was called add()
 	public void addOffering(Offering offering) {
 		int credits = schedule.getCredits();
 		credits += offering.getCourse().getCredits();

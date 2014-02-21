@@ -24,14 +24,14 @@ public class CourseDao {
 		}
 	}
 	
-	public static Course create(String name, int credits) throws Exception {
+	public static Course create(String name, int credits) throws SQLException {
 		Connection connection = getConnection();
 		try {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate("DELETE FROM course WHERE name = '" + name + "';");
 			statement.executeUpdate("INSERT INTO course VALUES ('" + name + "', '" + credits + "');");
 			return new Course(name, credits);
-		} 
+		}
 		finally {
 			closeConnection(connection);
 		}
@@ -46,15 +46,12 @@ public class CourseDao {
 			int credits = result.getInt("Credits");
 			return new Course(name, credits);
 		} 
-		catch (Exception ex) {
-			return null;
-		} 
 		finally {
 			closeConnection(connection);
 		}
 	}
 	
-	public static void update(Course course) throws Exception {
+	public static void update(Course course) throws SQLException {
 		Connection connection = getConnection();
 		try {
 			Statement statement = connection.createStatement();

@@ -25,7 +25,7 @@ public class OfferingDao {
 		}
 	}
 	
-	public static Offering create(Course course, String daysTimesCsv) throws Exception {
+	public static Offering create(Course course, String daysTimesCsv) throws SQLException {
 		Connection connection = getConnection();
 		try {
 			Statement statement = connection.createStatement();
@@ -53,13 +53,12 @@ public class OfferingDao {
 			connection.close();
 			return new Offering(id, course, dateTime);
 		} 
-		catch (Exception ex) {
+		finally{
 			closeConnection(connection);
-			return null;
 		}
 	}
 	
-	public static void update(Offering offering, Course course) throws Exception {
+	public static void update(Offering offering, Course course) throws SQLException {
 		Connection connection = getConnection();
 		try {
 			Statement statement = connection.createStatement();

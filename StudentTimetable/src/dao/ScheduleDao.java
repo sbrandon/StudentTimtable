@@ -26,7 +26,7 @@ public class ScheduleDao {
 		}
 	}
 	
-	public static void deleteAll() throws Exception {
+	public static void deleteAll() throws SQLException {
 		Connection connection = getConnection();
 		try {
 			Statement statement = connection.createStatement();
@@ -37,7 +37,7 @@ public class ScheduleDao {
 		}
 	}
 	
-	public static Schedule create(String name) throws Exception {
+	public static Schedule create(String name) throws SQLException {
 		Connection connection = getConnection();
 		try {
 			Statement statement = connection.createStatement();
@@ -62,15 +62,12 @@ public class ScheduleDao {
 			}
 			return schedule;
 		} 
-		catch (Exception ex) {
-			return null;
-		} 
 		finally {
 			closeConnection(connection);
 		}
 	}
 
-	public static Collection<Schedule> all() throws Exception {
+	public static Collection<Schedule> all() throws SQLException {
 		Connection connection = getConnection();
 		ArrayList<Schedule> result = new ArrayList<Schedule>();
 		try {
@@ -85,7 +82,7 @@ public class ScheduleDao {
 		return result;
 	}
 
-	public static void update(Schedule schedule) throws Exception {
+	public static void update(Schedule schedule) throws SQLException {
 		Connection connection = getConnection();
 		try {
 			Statement statement = connection.createStatement();

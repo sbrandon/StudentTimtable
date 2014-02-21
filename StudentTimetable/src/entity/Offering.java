@@ -12,15 +12,6 @@ public class Offering {
 		this.daysTimes = daysTimesCsv;
 	}
 	
-	//Empty Constructor
-	public Offering(){
-		
-	}
-
-	public String toString() {
-		return "Offering " + getId() + ": " + getCourse() + " meeting " + getDaysTimes();
-	}
-	
 	/*
 	 * Getters and Setters
 	 */
