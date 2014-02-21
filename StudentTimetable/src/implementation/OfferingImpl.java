@@ -1,3 +1,7 @@
+/*
+ * OfferingImpl.java
+ * Manages business logic methods for offering objects.
+ */
 package implementation;
 
 import entity.Offering;

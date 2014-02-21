@@ -1,3 +1,7 @@
+/*
+ * ScheduleImpl.java
+ * Manages business logic methods for schedule objects.
+ */
 package implementation;
 
 import java.util.ArrayList;

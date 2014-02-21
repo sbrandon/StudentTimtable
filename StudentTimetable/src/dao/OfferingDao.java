@@ -1,3 +1,7 @@
+/*
+ * OfferingDAO.java
+ * Manages interaction with the offering table in the database.
+ */
 package dao;
 
 import java.sql.Connection;

@@ -9,7 +9,9 @@ import entity.Schedule;
 
 public class Report {
 	
-	public Report() {
+	//Constructor
+	public Report(){
+		
 	}
 
 	Hashtable<Integer, ArrayList<String>> offeringToName = new Hashtable<Integer, ArrayList<String>>();

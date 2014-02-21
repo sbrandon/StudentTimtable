@@ -23,10 +23,9 @@ public class TestReport extends TestCase {
 		assertEquals("Number of scheduled offerings: 0\n", buffer.toString());
 	}
 	
-	//TODO Edited
 	public void testReport() throws Exception {
 		ScheduleDao.deleteAll();
-		Course cs101 = CourseDao.create("CS101", 3);
+		Course cs101 = (Course) CourseDao.create(new Course("CS101", 3));
 		CourseDao.update(cs101);
 		Offering off1 = OfferingDao.create(cs101, "M10");
 		OfferingDao.update(off1, cs101);

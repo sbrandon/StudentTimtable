@@ -1,3 +1,7 @@
+/*
+ * ScheduleDAO.java
+ * Manages interaction with the schedule table in the database.
+ */
 package dao;
 
 import java.sql.Connection;

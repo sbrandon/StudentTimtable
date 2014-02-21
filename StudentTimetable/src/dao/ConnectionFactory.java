@@ -1,3 +1,7 @@
+/*
+ * ConnectionFactory.java
+ * Manages database connections.
+ */
 package dao;
 
 import java.sql.DriverManager;
