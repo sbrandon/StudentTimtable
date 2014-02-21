@@ -1,10 +1,7 @@
 package studentTimetable;
 
+import implementation.ScheduleImpl;
 import junit.framework.TestCase;
-
-import java.util.List;
-import java.util.Collection;
-
 import dao.CourseDao;
 import dao.OfferingDao;
 import dao.ScheduleDao;
@@ -26,6 +23,7 @@ public class TestReport extends TestCase {
 		assertEquals("Number of scheduled offerings: 0\n", buffer.toString());
 	}
 	
+	//TODO Edited
 	public void testReport() throws Exception {
 		ScheduleDao.deleteAll();
 		Course cs101 = CourseDao.create("CS101", 3);
@@ -35,12 +33,14 @@ public class TestReport extends TestCase {
 		Offering off2 = OfferingDao.create(cs101, "T9");
 		OfferingDao.update(off2, cs101);
 		Schedule s = ScheduleDao.create("Bob");
-		//s.add(off1);
-		//s.add(off2);
-		//s.update();
+		ScheduleImpl scheduleImpl1 = new ScheduleImpl(s);
+		scheduleImpl1.addOffering(off1);
+		scheduleImpl1.addOffering(off2);
+		ScheduleDao.update(s);
 		Schedule s2 = ScheduleDao.create("Alice");
-		//scheduleDao2.add(off1);
-		//scheduleDao2.update();
+		ScheduleImpl scheduleImpl2 = new ScheduleImpl(s2);
+		scheduleImpl2.addOffering(off1);
+		ScheduleDao.update(s2);
 		Report report = new Report();
 		StringBuffer buffer = new StringBuffer();
 		report.write(buffer);

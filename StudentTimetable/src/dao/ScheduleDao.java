@@ -6,12 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.StringTokenizer;
-
-import entity.Course;
 import entity.Offering;
 import entity.Schedule;
 
@@ -28,7 +22,7 @@ public class ScheduleDao {
 		try {
 			connection.close();
 		} catch (SQLException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -64,7 +58,7 @@ public class ScheduleDao {
 			while (result.next()) {
 				int offeringId = result.getInt("OfferingId");
 				Offering offering = OfferingDao.find(offeringId);
-				//schedule.add(offering);
+				schedule.getOfferings().add(offering);
 			}
 			return schedule;
 		} 
@@ -91,14 +85,14 @@ public class ScheduleDao {
 		return result;
 	}
 
-	public void update(String name, ArrayList<Offering> schedule) throws Exception {
+	public static void update(Schedule schedule) throws Exception {
 		Connection connection = getConnection();
 		try {
 			Statement statement = connection.createStatement();
-			statement.executeUpdate("DELETE FROM schedule WHERE name = '" + name + "';");
-			for (int i = 0; i < schedule.size(); i++) {
-				Offering offering = (Offering) schedule.get(i);
-				statement.executeUpdate("INSERT INTO schedule VALUES('" + name + "','" + offering.getId() + "');");
+			statement.executeUpdate("DELETE FROM schedule WHERE name = '" + schedule.getName() + "';");
+			for (int i = 0; i < schedule.getOfferings().size(); i++) {
+				Offering offering = (Offering) schedule.getOfferings().get(i);
+				statement.executeUpdate("INSERT INTO schedule VALUES('" + schedule.getName() + "','" + offering.getId() + "');");
 			}
 		} 
 		finally {

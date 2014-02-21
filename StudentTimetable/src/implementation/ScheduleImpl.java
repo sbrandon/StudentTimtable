@@ -12,7 +12,6 @@ import entity.Schedule;
 
 public class ScheduleImpl{
 	
-	private ArrayList<Offering> offerings = new ArrayList<Offering>();
 	private static final int minCredits = 12;
 	private static final int maxCredits = 18;
 	private boolean permission = false;
@@ -22,11 +21,12 @@ public class ScheduleImpl{
 		this.schedule = schedule;
 	}
 	
-	public void add(Offering offering) {
+	//Was called add()
+	public void addOffering(Offering offering) {
 		int credits = schedule.getCredits();
 		credits += offering.getCourse().getCredits();
 		schedule.setCredits(credits);
-		offerings.add(offering);
+		schedule.getOfferings().add(offering);
 	}
 
 	public void authorizeOverload(boolean authorized) {
@@ -46,8 +46,8 @@ public class ScheduleImpl{
 
 	public void checkDuplicateCourses(ArrayList<String> analysis) {
 		HashSet<Course> courses = new HashSet<Course>();
-		for (int i = 0; i < offerings.size(); i++) {
-			Course course = ((Offering) offerings.get(i)).getCourse();
+		for (int i = 0; i < schedule.getOfferings().size(); i++) {
+			Course course = ((Offering) schedule.getOfferings().get(i)).getCourse();
 			if (courses.contains(course))
 				analysis.add("Same course twice - " + course.getName());
 			courses.add(course);
@@ -56,7 +56,7 @@ public class ScheduleImpl{
 
 	public void checkOverlap(ArrayList<String> analysis) {
 		HashSet<String> times = new HashSet<String>();
-		for (Iterator<Offering> iterator = offerings.iterator(); iterator.hasNext();) {
+		for (Iterator<Offering> iterator = schedule.getOfferings().iterator(); iterator.hasNext();) {
 			Offering offering = (Offering) iterator.next();
 			String daysTimes = offering.getDaysTimes();
 			StringTokenizer tokens = new StringTokenizer(daysTimes, ",");
@@ -84,4 +84,9 @@ public class ScheduleImpl{
 	public static int getMaxcredits() {
 		return maxCredits;
 	}
+
+	public String toString() {
+		return "Schedule " + schedule.getName() + ": " + schedule;
+	}
+
 }

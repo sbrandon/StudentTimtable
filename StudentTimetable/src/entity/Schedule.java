@@ -1,15 +1,13 @@
 package entity;
 
 import java.util.*;
-import java.sql.*;
-
-import dao.ConnectionFactory;
 
 public class Schedule {
 	
 	private String name;
 	private int credits = 0;
-	
+	private ArrayList<Offering> offerings = new ArrayList<Offering>();
+
 	//Constructor
 	public Schedule(String name) {
 		this.name = name;
@@ -19,12 +17,6 @@ public class Schedule {
 	public Schedule(){
 		
 	}
-	
-	/*
-	public String toString() {
-		return "Schedule " + name + ": " + schedule;
-	}
-	*/
 	
 	/*
 	 * Getters and Setters
@@ -44,6 +36,14 @@ public class Schedule {
 
 	public void setCredits(int credits) {
 		this.credits = credits;
+	}
+	
+	public ArrayList<Offering> getOfferings() {
+		return offerings;
+	}
+
+	public void setOfferings(ArrayList<Offering> offerings) {
+		this.offerings = offerings;
 	}
 	
 }
