@@ -5,6 +5,9 @@ import junit.framework.TestCase;
 import java.util.List;
 import java.util.Collection;
 
+import dao.CourseDao;
+import dao.OfferingDao;
+import dao.ScheduleDao;
 import entity.Course;
 import entity.Offering;
 import entity.Schedule;
@@ -16,7 +19,7 @@ public class TestReport extends TestCase {
 	}
 	
 	public void testEmptyReport() throws Exception {
-		Schedule.deleteAll();
+		ScheduleDao.deleteAll();
 		Report report = new Report();
 		StringBuffer buffer = new StringBuffer();
 		report.write(buffer);
@@ -24,20 +27,20 @@ public class TestReport extends TestCase {
 	}
 	
 	public void testReport() throws Exception {
-		Schedule.deleteAll();
-		Course cs101 = Course.create("CS101", 3);
-		cs101.update();
-		Offering off1 = Offering.create(cs101, "M10");
-		off1.update();
-		Offering off2 = Offering.create(cs101, "T9");
-		off2.update();
-		Schedule s = Schedule.create("Bob");
-		s.add(off1);
-		s.add(off2);
-		s.update();
-		Schedule s2 = Schedule.create("Alice");
-		s2.add(off1);
-		s2.update();
+		ScheduleDao.deleteAll();
+		Course cs101 = CourseDao.create("CS101", 3);
+		CourseDao.update(cs101);
+		Offering off1 = OfferingDao.create(cs101, "M10");
+		OfferingDao.update(off1, cs101);
+		Offering off2 = OfferingDao.create(cs101, "T9");
+		OfferingDao.update(off2, cs101);
+		Schedule s = ScheduleDao.create("Bob");
+		//s.add(off1);
+		//s.add(off2);
+		//s.update();
+		Schedule s2 = ScheduleDao.create("Alice");
+		//scheduleDao2.add(off1);
+		//scheduleDao2.update();
 		Report report = new Report();
 		StringBuffer buffer = new StringBuffer();
 		report.write(buffer);
